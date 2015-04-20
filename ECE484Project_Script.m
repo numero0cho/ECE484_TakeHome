@@ -6,7 +6,7 @@ clear
 
 % Define number of elements in the array
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-N = 14;
+N = 12;
 if ( mod(N,2) ~= 0 )
     disp('Error. N must be even')
     return;
@@ -24,16 +24,20 @@ PSI = 2*pi*d;
 
 
 % Initialize vector for array factor data
-AF = zeros(1,181);
+AF = zeros(1,1801);
+
+% Defining length of vectors
+theta = 0:.1:180;
+theta_deg = 0:.1:180;
 
 
 
 
 % Summation of exponentials
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-for theta = 0:1:180;
+for i = 1:length(theta)-1;
     for n = 1:N
-        AF(1,theta+1) = AF(1,theta+1) + exp(1i*(n-1)*PSI*cosd(theta));
+        AF(1,i+1) = AF(1,i+1) + exp(1i*(n-1)*PSI*cosd(theta(i)));
     end
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -44,9 +48,6 @@ end
 % Calculation of maximum value for array factor and its value, as well as
 % calculation of normalized array factor array and normalized dB A.F.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-theta = 0:1:180;
-theta_deg = 0:1:180;
-
 [AF_max,AF_index] = max(abs(AF));
 
 AF_norm = AF(1,:)./AF_max(1);
@@ -74,7 +75,7 @@ plot(theta,AF_norm_dB);
 title('dB vs \theta')
 xlabel('\theta in degrees')
 ylabel('dB')
-axis([0 180 -60 0])
+axis([0 180 -30 0])
 hold off
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -149,7 +150,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 data_norm = (AF_norm);
 U_sin = data_norm.*(sin(theta_deg.*pi./180));
-theta = 0:(pi/180):pi;
+theta = 0:(pi/1800):pi;
 U_s = U_sin(1:1:end);
 Q = 2*pi*trapz(theta, U_s);
 
@@ -166,7 +167,7 @@ fprintf('\n');
 % Compute the 3 dB beamwidth from the major lobe
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 halfPower_index = 0;
-point = 90;
+point = 900;
 while(halfPower_index == 0)
     if(AF_norm_dB(point-1) <= -3)
        halfPower_index = 1;
