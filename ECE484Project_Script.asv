@@ -163,23 +163,6 @@ fprintf('\n');
 
 
 
-% Compute the 3 dB beamwidth from the major lobe
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-halfPower_index = 0;
-point = 90;
-while(halfPower_index == 0)
-    if(AF_norm_dB(point-1) <= -3)
-       halfPower_index = 1;
-       fprintf('3 dB beamwidth is %g degrees\n', (90-theta_deg(point-1))*2);
-    end
-    point = point - 1;
-end
-fprintf('\n');
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
 % Printing of sidelobes and their peak relative to the major lobe
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 disp('Angles of the sidelobes on plot 1 (90 degrees is the major lobe):');
@@ -194,9 +177,6 @@ for j = N/2-1:-1:1
    fprintf('\n'); 
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 
 
 
