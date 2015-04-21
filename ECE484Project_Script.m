@@ -33,17 +33,24 @@ theta_deg = 0:.1:180;
 
 
 
-% Chebychev
-a_n = [ 1, 1.08244, 1.50839, 1.90128, 2.2031, 2.36733, 2.36733, ...
-    2.2031, 1.90128, 1.50839, 1.08244, 1 ];
-a_n_norm = a_n./4.73467;
+% For Tschebychev Pattern, uncomment this section and comment ULA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% a_n = [ 1, 1.08244, 1.50839, 1.90128, 2.2031, 2.36733, 2.36733, ...
+%     2.2031, 1.90128, 1.50839, 1.08244, 1 ];
+% 
+% for i = 1:length(theta)-1;
+%     for n = 1:N
+%         AF(1,i) = AF(1,i) + a_n(n)*exp(1i*(n-1)*PSI*cosd(theta_deg(i)));
+%     end
+% end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% Summation of exponentials
+% For regular ULA pattern, uncomment this section and comment Tschebychev
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for i = 1:length(theta)-1;
     for n = 1:N
-        AF(1,i) = AF(1,i) + a_n_norm(n)*exp(1i*(n-1)*PSI*cosd(theta_deg(i)));
+        AF(1,i) = AF(1,i) + exp(1i*(n-1)*PSI*cosd(theta_deg(i)));
     end
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
