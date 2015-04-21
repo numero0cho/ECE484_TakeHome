@@ -33,11 +33,17 @@ theta_deg = 0:.1:180;
 
 
 
+% Chebychev
+a_n = [ 1, 1.08244, 1.50839, 1.90128, 2.2031, 2.36733, 2.36733, ...
+    2.2031, 1.90128, 1.50839, 1.08244, 1 ];
+a_n_norm = a_n./4.73467;
+
+
 % Summation of exponentials
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for i = 1:length(theta)-1;
     for n = 1:N
-        AF(1,i+1) = AF(1,i+1) + exp(1i*(n-1)*PSI*cosd(theta(i)));
+        AF(1,i) = AF(1,i) + a_n_norm(n)*exp(1i*(n-1)*PSI*cosd(theta_deg(i)));
     end
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -51,8 +57,10 @@ end
 [AF_max,AF_index] = max(abs(AF));
 
 AF_norm = AF(1,:)./AF_max(1);
-AF_norm_dB = 10.*log10(abs(AF_norm));
+AF_norm_dB = 20.*log10(abs(AF_norm));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 
 
@@ -75,7 +83,7 @@ plot(theta,AF_norm_dB);
 title('dB vs \theta')
 xlabel('\theta in degrees')
 ylabel('dB')
-axis([0 180 -30 0])
+axis([0 180 -40 0])
 hold off
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
