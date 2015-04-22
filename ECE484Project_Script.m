@@ -154,6 +154,7 @@ for j = 1:lobes
     
     lobeData(j,1) = theta(maxIndex);
     lobeData(j,2) = maxU;
+    maxU = -100;                        % reset maxU for next iteration
     
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
