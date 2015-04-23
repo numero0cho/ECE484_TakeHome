@@ -57,13 +57,47 @@ end
 
 
 
+% For random failure in 12-element Dolph-Chebyshev array
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% % For a completely random element failure, use the shuffled rng
+% rng('shuffle')
+% 
+% % To test failures for all elements, manually seed the rng with a
+% % different number in each instance
+% % rng(11)
+% 
+% a = 1;
+% b = 12.99;
+% rand_num = floor( (b-a).*rand(4,1) + a );
+% 
+% % To check if the random numbers are being generated in the correct range
+% % rand_num = floor( (b-a).*rand(1000,1) + a );
+% % r_range = [min(rand_num) max(rand_num)];
+% 
+% a_n = [ 1, 1.08244, 1.50839, 1.90128, 2.2031, 2.36733, 2.36733, ...
+%     2.2031, 1.90128, 1.50839, 1.08244, 1 ];
+% 
+% for i = 1:length(theta)-1;
+%     for n = 1:N
+%         if (n == rand_num(1) || n == rand_num(2) || n == rand_num(3) || n == rand_num(4))
+%             AF(1,i) = AF(1,i) + 0*exp(1i*(n-1)*PSI*cosd(theta_deg(i))); 
+%         else
+%             AF(1,i) = AF(1,i) + a_n(n)*exp(1i*(n-1)*PSI*cosd(theta_deg(i)));
+%         end
+%     end
+% end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 % Calculation of maximum value for array factor and its value, as well as
 % calculation of normalized array factor array and normalized dB A.F.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [AF_max,AF_index] = max(abs(AF));
 
-AF_norm = AF(1,:)./AF_max(1);
+AF_norm = AF(1,:)./AF_max;
 AF_norm_dB = 20.*log10(abs(AF_norm));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -165,7 +199,7 @@ end
 % Directivity calculations and outputting
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 data_norm = (AF_norm);
-U_sin = data_norm.*(sin(theta_deg.*pi./180));
+U_sin = data_norm.*(sin(theta_deg.*pi./1800));
 theta = 0:(pi/1800):pi;
 U_s = U_sin(1:1:end);
 Q = 2*pi*trapz(theta, U_s);
