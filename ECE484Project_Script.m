@@ -25,10 +25,14 @@ PSI = 2*pi*d;
 
 % Initialize vector for array factor data
 AF = zeros(1,1801);
+% AF = zeros(1,181);
 
 % Defining length of vectors
 theta = 0:.1:180;
 theta_deg = 0:.1:180;
+
+% theta = 0:1:180;
+% theta_deg = 0:1:180;
 
 
 
@@ -57,9 +61,11 @@ end
 
 
 
+
+
 % For random failure in 12-element Dolph-Chebyshev array
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
+
 % % For a completely random element failure, use the shuffled rng
 % rng('shuffle')
 % 
@@ -69,7 +75,8 @@ end
 % 
 % a = 1;
 % b = 12.99;
-% rand_num = floor( (b-a).*rand(4,1) + a );
+% % rand_num = floor( (b-a).*rand(4,1) + a );
+% rand_num = floor( (b-a).*rand(1,1) + a );
 % 
 % % To check if the random numbers are being generated in the correct range
 % % rand_num = floor( (b-a).*rand(1000,1) + a );
@@ -80,7 +87,8 @@ end
 % 
 % for i = 1:length(theta)-1;
 %     for n = 1:N
-%         if (n == rand_num(1) || n == rand_num(2) || n == rand_num(3) || n == rand_num(4))
+% %        if (n == rand_num(1) || n == rand_num(2) || n == rand_num(3) || n == rand_num(4))
+%         if (n == 12)
 %             AF(1,i) = AF(1,i) + 0*exp(1i*(n-1)*PSI*cosd(theta_deg(i))); 
 %         else
 %             AF(1,i) = AF(1,i) + a_n(n)*exp(1i*(n-1)*PSI*cosd(theta_deg(i)));
@@ -89,6 +97,8 @@ end
 % end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
 
 
@@ -109,7 +119,7 @@ AF_norm_dB = 20.*log10(abs(AF_norm));
 % The following prints the normalized plot of the array factor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % figure
-% plot(0:1:180,abs(AF_norm));
+% plot(theta_deg,abs(AF_norm));
 % title('Normalized')
 % hold on
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -124,7 +134,7 @@ plot(theta,AF_norm_dB);
 title('dB vs \theta')
 xlabel('\theta in degrees')
 ylabel('dB')
-axis([0 180 -40 0])
+axis([0 180 -60 0])
 hold off
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -199,12 +209,12 @@ end
 % Directivity calculations and outputting
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 data_norm = (AF_norm);
-U_sin = data_norm.*(sin(theta_deg.*pi./1800));
+U_sin = data_norm.*(sin(theta_deg.*pi./180));
 theta = 0:(pi/1800):pi;
 U_s = U_sin(1:1:end);
 Q = 2*pi*trapz(theta, U_s);
 
-directivity_dim_plot1 = abs(4 * pi .* (1/Q));
+directivity_dim_plot1 = abs(4 * pi * (1/Q));
 directivity_db_plot1 = abs(10.*log10(directivity_dim_plot1));
 
 fprintf('Directivity Dimensionless = %g\n', directivity_dim_plot1);
